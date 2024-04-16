@@ -1,9 +1,13 @@
-const Book = require("../models/Book").default;
+const Book = require("../models/Book");
 
 const bookController = {
   getAllBooks: async (req, res) => {
-    const books = await Book.find();
-    res.send(books);
+    try {
+      const books = await Book.find();
+      res.json(books);
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
   },
 
   addBook: async (req, res) => {
@@ -11,17 +15,16 @@ const bookController = {
       name: req.body.name,
       author: req.body.author,
       description: req.body.description,
-      releaseDate: new Date(),
+      releaseDate: req.body.releaseDate,
     });
 
     try {
       const savedBook = await newBook.save();
       res.send(savedBook);
     } catch (error) {
-      res.status(500).send;
+      return res.status(400).json({ message: error });
     }
-  }
-
+  },
 };
 
 module.exports = bookController;
