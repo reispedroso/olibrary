@@ -1,11 +1,10 @@
 const User = require("../models/User");
-const mongoose = require("mongoose");
 const DateCorrection = require("../services/dateCorrection");
 
 
 const userController = {
 
-    getAllUsers: async (res) => {
+    getAllUsers: async (req, res) => {
         const users = await User.find();
         res.json(users);
     },
