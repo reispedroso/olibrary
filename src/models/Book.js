@@ -1,12 +1,13 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
+import DateCorrection from "../services/dateCorrection";
 
-const bookSchema = new mongoose.Schema({
+const bookSchema = new Schema({
     name: String,
     author: String,
     description: String,
-    releaseDate: Date,
+    releaseDate: DateCorrection(Date.now()),
 });
 
-const Book = mongoose.model("Book", bookSchema);
+const Book = model("Book", bookSchema);
 
-module.exports = Book;
+export default Book;
