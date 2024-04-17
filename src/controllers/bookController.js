@@ -1,4 +1,5 @@
 const Book = require("../models/Book");
+const DateCorrection = require("../services/dateCorrection");
 
 const bookController = {
   getAllBooks: async (req, res) => {
@@ -25,6 +26,22 @@ const bookController = {
       return res.status(400).json({ message: error });
     }
   },
+
+  updateBook: async (req, res) => {
+    try {
+      const updatedBook = await Book.findById(req.params.id);
+      updatedBook.name = req.body.name;
+      updatedBook.author = req.body.author;
+      updatedBook.description = req.body.description;
+      updatedBook.updatedAt = DateCorrection(Date.now());
+
+      const savedBook = await updatedBook.save();
+      res.json(savedBook);
+    } catch(error) 
+    {
+      return res.status(400).json({ message: error})
+    }
+  }
 };
 
 module.exports = bookController;

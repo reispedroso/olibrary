@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const DateCorrection = require("../services/dateCorrection");
-
+const passwordHashingService = require("../services/passwordHashingService");
 
 const userController = {
 
@@ -13,7 +13,7 @@ const userController = {
         const newUser = new User({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            password: await passwordHashingService.hashPassword(req.body.password),
             createdAt: DateCorrection(Date.now()),
             updatedAt: null,
             deletedAt: null,
