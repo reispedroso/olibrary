@@ -17,6 +17,7 @@ const bookController = {
       author: req.body.author,
       description: req.body.description,
       releaseDate: req.body.releaseDate,
+      createdAt: DateCorrection(Date.now()),
     });
 
     try {
