@@ -15,5 +15,5 @@ app.use(bookRouter);
 app.use(userRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`🚀 Server is running on port ${port}`);
 });
