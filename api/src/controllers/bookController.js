@@ -14,10 +14,8 @@ const bookController = {
     try {
       const book = await Book.findById(req.params.id);
       res.json(book);
-    }
-    catch(error)
-    {
-      return res.status(400).json({message: error})
+    } catch (error) {
+      return res.status(400).json({ message: error });
     }
   },
   addBook: async (req, res) => {
@@ -27,7 +25,6 @@ const bookController = {
         author: req.body.author,
         description: req.body.description,
         releaseDate: req.body.releaseDate,
-        createdAt: DateCorrection(Date.now()),
       });
 
       const savedBook = await newBook.save();
@@ -43,7 +40,6 @@ const bookController = {
       updatedBook.name = req.body.name;
       updatedBook.author = req.body.author;
       updatedBook.description = req.body.description;
-      updatedBook.updatedAt = DateCorrection(Date.now());
 
       const savedBook = await updatedBook.save();
       res.json(savedBook);
@@ -52,18 +48,18 @@ const bookController = {
     }
   },
 
-  deleteBook: async(req, res) => {
+  deleteBook: async (req, res) => {
     try {
-      const deletedBook = await Book.findById(req.params.id);
-      deletedBook.deletedAt = DateCorrection(Date.now());
+      const deletedBook = await Book.deleteOne(req.params.id);
+
       const savedBook = await deletedBook.save();
       res.json(savedBook);
+    } catch (error) {
+      return res.status(400).json({ message: error });
     }
-    catch(error)
-    {
-      return res.status(400).json({message: error});
-    }
-  }
+  },
+
+ 
 };
 
 module.exports = bookController;
