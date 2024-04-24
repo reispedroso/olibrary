@@ -1,5 +1,4 @@
 const Book = require("../models/Book");
-const DateCorrection = require("../services/dateCorrection");
 
 const bookController = {
   getAllBooks: async (req, res) => {
@@ -50,16 +49,12 @@ const bookController = {
 
   deleteBook: async (req, res) => {
     try {
-      const deletedBook = await Book.deleteOne(req.params.id);
-
-      const savedBook = await deletedBook.save();
-      res.json(savedBook);
+      await Book.deleteOne(req.params.id);
+      res.json("true");
     } catch (error) {
       return res.status(400).json({ message: error });
     }
   },
-
- 
 };
 
 module.exports = bookController;

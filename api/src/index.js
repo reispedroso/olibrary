@@ -7,13 +7,17 @@ const userRouter = require("./routes/userRoutes");
 
 mongoose.connect(process.env.MONGODB_URI);
 
+
 const app = express();
-const port = 3000;
+
+
+
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(bookRouter);
 app.use(userRouter);
 
 app.listen(port, () => {
-  console.log(`🚀 Server is running on port ${port}`);
+  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });

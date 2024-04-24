@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const DateCorrection = require("../services/dateCorrection");
 const passwordHashingService = require("../services/passwordHashingService");
 
 const userController = {
@@ -26,9 +25,6 @@ const userController = {
       name: req.body.name,
       email: req.body.email,
       password: await passwordHashingService.hashPassword(req.body.password),
-      createdAt: DateCorrection(Date.now()),
-      updatedAt: null,
-      deletedAt: null,
     });
 
     try {
@@ -45,7 +41,6 @@ const userController = {
       userToUpdate.name = req.body.name;
       userToUpdate.email = req.body.email;
       userToUpdate.password = req.body.password;
-      userToUpdate.updatedAt = DateCorrection(Date.now());
 
       await userToUpdate.save();
       res.json(userToUpdate);
@@ -56,10 +51,8 @@ const userController = {
 
   deleteUser: async (req, res) => {
     try {
-      const userToDelete = await User.findById(req.params.id);
-      userToDelete.deletedAt = DateCorrection(Date.now());
-      await userToDelete.save();
-      res.json(userToDelete);
+      await User.deleteOne(req.params.id);
+      res.json("true");
     } catch (error) {
       res.status(400).json({ message: error });
     }
